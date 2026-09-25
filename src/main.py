@@ -1,6 +1,6 @@
 import flet as ft
-from src.pages.watchlist import WatchListPage
-from src.pages.stock_view import StockViewPage
+from pages.watchlist import WatchListPage
+from pages.stock_view import StockViewPage
 
 @ft.component
 def App():

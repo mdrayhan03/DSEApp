@@ -1,6 +1,6 @@
 import flet as ft
-from src.components.add_button import AddButton
-from src.components.watchlist_component import WatchListComponent
+from components.add_button import AddButton
+from components.watchlist_component import WatchListComponent
 
 class WatchListPage(ft.Column) :
     def __init__(self):
