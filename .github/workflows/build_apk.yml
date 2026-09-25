@@ -20,14 +20,13 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          # Removed cache: 'gradle' to prevent file pattern matching errors before Flet generates Gradle files
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      # Caching Flutter SDK downloaded directly by Flet CLI
+      - name: Cache Flet Flutter SDK
+        uses: actions/cache@v4
         with:
-          channel: 'stable'
-          cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+          path: ~/.flet
+          key: ${{ runner.os }}-flet-flutter-sdk
 
       - name: Install Poetry
         run: pip install poetry
@@ -46,7 +45,8 @@ jobs:
         run: poetry install --no-root
 
       - name: Build APK
-        run: poetry run flet build apk
+        # Added -y / --no-interactive flag so Flet auto-approves installing its required Flutter version
+        run: poetry run flet build apk --no-interactive
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
