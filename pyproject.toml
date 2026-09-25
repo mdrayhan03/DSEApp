@@ -17,10 +17,9 @@ dependencies = [
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-# Added Flet build configuration section
 [tool.flet]
 org = "com.mdrayhan03"
 product = "DSEApp"
 
 [tool.flet.app]
-path = "src/main.py"
+path = "src"  # Points to the directory containing main.py
