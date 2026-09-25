@@ -20,14 +20,27 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: 'gradle' # Caches Gradle dependencies for Android builds
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          cache: true # Caches Flutter SDK downloads and engine artifacts
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
 
       - name: Install Poetry
         run: pip install poetry
+
+      - name: Cache Poetry Virtualenv & Packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
 
       - name: Install Dependencies
         run: poetry install
