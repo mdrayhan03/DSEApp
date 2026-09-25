@@ -21,7 +21,12 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Caches the Flutter SDK managed by Flet CLI
+      # Automatically accept Android SDK licenses
+      - name: Accept Android Licenses
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      # Cache the Flutter SDK managed by Flet CLI
       - name: Cache Flet Flutter SDK
         uses: actions/cache@v4
         with:
@@ -45,8 +50,8 @@ jobs:
         run: poetry install --no-root
 
       - name: Build APK
-        # Pipes 'y' automatically into stdin to answer interactive CLI prompts
-        run: yes | poetry run flet build apk
+        # Added --module-name src.main to point to your entry point script
+        run: yes | poetry run flet build apk --module-name src.main
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
